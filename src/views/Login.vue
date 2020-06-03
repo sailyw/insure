@@ -11,16 +11,16 @@
       </div>
       <!-- 登陆表单 -->
       <div class="wrapper">
-        <el-form :model="loginForm" :rules="loginFormRules" label-width="0" class="login_form">
-          <el-form-item prop="phoneNum">
-            <el-input v-model="loginForm.phoneNum" placeholder="输入手机号"></el-input>
-          </el-form-item>
-          <el-form-item prop="phoneCode" class="pr">
-            <el-input v-model="loginForm.phoneCode" type="password" placeholder="输入手机验证码"></el-input>
+        <el-form ref="ruleForm" :rules="rules" :model="loginForm" label-width="0" class="login_form">
+          <el-form-item prop="phoneNum" class="pr">
+            <el-input v-model="loginForm.phoneNum" type="text" placeholder="输入手机号"></el-input>
             <button @click.prevent="getCode()" class="code-btn" :disabled="!show">
               <span v-show="show">获取验证码</span>
               <span v-show="!show" class="count">{{count}} s</span>
             </button>
+          </el-form-item>
+          <el-form-item prop="phoneCode">
+            <el-input v-model="loginForm.phoneCode" type="password" placeholder="输入手机验证码"></el-input>
           </el-form-item>
           <!-- 按钮区域 -->
           <el-form-item class="btns">
@@ -42,9 +42,11 @@ export default {
         phoneNum: "",
         phoneCode: ""
       },
-      rules:[{
-
-      }],
+      rules:{
+        phoneNum:[
+          
+        ]
+      },
       show: true,
       count: 0,
       timer: "",
@@ -63,6 +65,7 @@ export default {
   },
   methods: {
     handleLogin() {
+      console.log(111)
       if (this.usercode === null && this.password === undefined) {
         alert("请输入手机号");
       } else {
@@ -97,10 +100,10 @@ export default {
 #login {
   .header {
     width: 100%;
-    // background-color: #fff;
-    border-bottom: 1px solid #bebcbc;
+    background-color: rgb(227, 69, 80);
+    border-bottom: 1px solid #e6e6e6;
     .el-icon-arrow-left {
-      color: #bebcbc;
+      color: #ffffff;
       position: absolute;
       top: 9px;
       left: 0;
@@ -112,23 +115,29 @@ export default {
       margin: 0;
       line-height: 49px;
       font-size: 16px;
+      color: #ffffff;
       text-align: center;
     }
   }
   main {
-    .picclogo{
-      margin: 30px auto;
-      width: 60px;
-      height: 60px;
+    .picclogo {
+      margin: 40px auto;
+      width: 80px;
+      height: 80px;
+      // background: rgb(247, 105, 104);
       border-radius: 50%;
-      border: 1px solid #cccccc;
+      box-sizing: border-box;
+      border: 3px solid rgb(247, 105, 104);
+      //  box-shadow: rgba(241, 119, 119, 0.308) 0px 4px 6px 1px;
       position: relative;
       img {
         position: absolute;
+        width: 30px;
+        height: 30px;
         top: 50%;
         left: 50%;
-        margin-left: -30px;
-        margin-top: -30px;
+        margin-left: -15px;
+        margin-top: -15px;
       }
     }
     .wrapper {
@@ -149,7 +158,6 @@ export default {
         border: none;
         background-color: #fff;
         outline: none;
-        cursor: pointer;
       }
       .el-input__inner {
         border: none;
@@ -159,8 +167,10 @@ export default {
       .btns {
         margin-top: 20px;
         .el-button {
-          background-color: #bebcbc;
+          background-color: rgb(247, 105, 104);
+          box-shadow: rgba(241, 119, 119, 0.308) 0px 4px 6px 1px;
           width: 100%;
+          height: 45px;
           border: none;
         }
       }

@@ -1,39 +1,52 @@
 <template>
   <div id="registration">
+    <Nav />
     <!-- 信息查询 -->
-    <main>
-      <div class="insure-search">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item label="保单号：">
-            <el-input v-model="formInline.policyno"></el-input>
-          </el-form-item>
-          <el-form-item label="临时报案号:">
-            <el-input v-model="formInline.temporaryno"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">查询</el-button>
-          </el-form-item>
-        </el-form>
-      <div class="tablecase">
-        <el-table :data="tableData" stripe style="width: 100%" :header-cell-style="{background:'#eef1f6'}" border>
-           <el-table-column prop="kong" label="" width="180"></el-table-column>
-          <el-table-column prop="caseState" label="按键状态" width="180"></el-table-column>
-          <el-table-column prop="temporaryno" label="临时报案号" width="180"></el-table-column>
-          <el-table-column prop="policyno" label="保单号" width="180"></el-table-column>
-           <el-table-column prop="kong" label="" width="180"></el-table-column>
-        </el-table>
-      </div>
+    <main class="maincontainer">
+      <div class="wrapper">
+        <div class="insure-search">
+          <div class="infomation-title">
+            <span></span>
+            <p>信息查询</p>
+          </div>
+          <el-form :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item prop="policyno" label="保单号：">
+              <el-input v-model="ruleForm.policyno" placeholder="请输入保单号"></el-input>
+            </el-form-item>
+            <el-form-item prop="temporaryno" label="临时报案号：">
+              <el-input v-model="ruleForm.temporaryno" placeholder="请输入临时报案号"></el-input>
+            </el-form-item>
+            <el-form-item class="pr">
+              <el-button plain @click="onSubmit">搜索</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div class="tablecase">
+          <el-table
+            :data="tableData"
+            stripe
+            style="width: 100%"
+            :header-cell-style="{background:'#eef1f6'}"
+            border
+          >
+            <el-table-column prop="caseState" label="按键状态" ></el-table-column>
+            <el-table-column prop="temporaryno" label="临时报案号"></el-table-column>
+            <el-table-column prop="policyno" label="保单号"></el-table-column>
+          </el-table>
+        </div>
       </div>
     </main>
   </div>
 </template>
 
 <script>
+import Nav from "@/components/Nav.vue";
 export default {
   name: "InfoSearch",
+  components: { Nav },
   data() {
     return {
-      formInline: {
+      ruleForm: {
         policyno: "",
         temporaryno: ""
       },
@@ -68,21 +81,61 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 @import "../assets/base.less";
-#registration{
+#registration {
   main {
-    background-color: #f0eff4;
-    padding: 8px;
-    min-height: 100vh;
-    .insure-search {
-      margin-top: 50px;
-      background-color: #fff;
-      padding: 8px;
-    }
-    .tablecase{
-      background: #ffffff;
-      margin-top: 15px;
+    margin: 60px auto;
+    background-color: rgba(249, 249, 249);
+    .wrapper {
+      .insure-search {
+        background-color: #ffffff;
+        margin-bottom: 8px;
+        .infomation-title {
+          display: flex;
+          // justify-content: center;
+          align-items: center;
+          span {
+            display: inline-block;
+            width: 3px;
+            height: 12px;
+            margin: 10px;
+            background: #f82222;
+          }
+          p {
+            display: inline;
+          }
+        }
+        .el-form {
+          margin: 0 8px;
+        }
+        .el-form-item {
+          margin-bottom: 0;
+          border-bottom: 1px solid #e5e5e5;
+          .el-input__inner {
+            border: none;
+            // border-bottom: 1px solid #e5e5e5 !important;
+            border-radius: 0;
+            // padding:0 0 0 159px
+          }
+          .el-form-item__label {
+            text-align: left;
+          }
+          .el-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            width: 100%;
+          }
+        }
+        .pr > .el-form-item__content {
+          margin-left: 0 !important;
+          margin-bottom: 20px;
+        }
+      }
+      .tablecase{
+        margin: 0 10px;
+      }
     }
   }
 }
