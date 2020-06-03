@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '@/views/Login.vue'
 import Registration from '@/views/Registration.vue'
 import InfoSearch from '@/views/InfoSearch.vue'
+import Home from '@/views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,10 @@ Vue.use(VueRouter)
     path: '/infoSearch',
     component:InfoSearch
   },
+  {
+    path:'/home',
+    component:Home
+  }
 ]
 
 const router = new VueRouter({

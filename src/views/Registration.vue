@@ -1,37 +1,33 @@
 <template>
   <div id="registration">
-    <div class="navBtn">
-      <ul>
-        <li>
-          <router-link to="/registration">
-            <p class="regbtn">预报案登记</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/infoSearch">
-            <p class="selectbtn">信息查询</p>
-          </router-link>
-        </li>
-      </ul>
-    </div>
+    <header class="header">
+      <i class="el-icon-arrow-left" @click="comeBack"></i>
+      <p>预报案登记</p>
+    </header>
     <div class="forminfo">
+      <!-- 保单信息 -->
       <div class="information-data">
-        <h2>保单信息</h2>
+        <div class="infomation-title">
+          <span></span>
+          <p>保单信息</p>
+        </div>
         <el-form
           :model="ruleForm"
           :rules="rules"
           ref="ruleForm"
-          label-width="100px"
+          label-width="0"
           class="demo-ruleForm"
         >
-          <el-form-item label="联系人电话" prop="tel">
-            <el-input v-model="ruleForm.tel" placeholer="请输入联系人电话"></el-input>
+          <el-form-item prop="tel" class="pr">
+            <el-input v-model="ruleForm.tel" placeholder="请输入联系人电话"></el-input>
+            <el-button type="primary" class="code-btn">联系人电话</el-button>
           </el-form-item>
-          <el-form-item label="保单号" prop="number">
-            <el-input v-model="ruleForm.number" placeholer="请输入保单号"></el-input>
+          <el-form-item prop="number" class="pr">
+            <el-input v-model="ruleForm.number" placeholder="请输入保单号"></el-input>
+            <el-button type="primary" class="code-btn">保单号</el-button>
           </el-form-item>
-          <el-form-item label="保险购买平台/来源" prop="origin">
-            <el-select v-model="ruleForm.origin" placeholder="请点击选择">
+          <el-form-item prop="origin" style="padding-bottom:10px">
+            <el-select v-model="ruleForm.origin" placeholder="请点击选择" style="width:100%">
               <el-option label="中小学生平安保险" value="student"></el-option>
               <el-option label="南钢集团补充医疗" value="nangang"></el-option>
               <el-option label="保险E家雇主险" value="Ejia"></el-option>
@@ -40,23 +36,28 @@
               <el-option label="新一站（含天猫旗舰店）" value="newone"></el-option>
               <el-option label="其他" value="others"></el-option>
             </el-select>
+             <el-button type="primary" class="code-btn">保险购买平台/来源</el-button>
           </el-form-item>
         </el-form>
       </div>
+      <!-- 报案人信息 -->
       <div class="information-data">
-        <h2>报案人信息</h2>
+        <div class="infomation-title">
+          <span></span>
+          <p>报案人信息</p>
+        </div>
         <el-form
           :model="ruleForm"
           :rules="rules"
           ref="ruleForm"
-          label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="报案人姓名" prop="name">
-            <el-input v-model="ruleForm.name" placeholer="请输入您的姓名"></el-input>
+          <el-form-item class="pr" prop="name">
+            <el-input v-model="ruleForm.name" placeholder="请输入您的姓名"></el-input>
+            <el-button type="primary" class="code-btn">报案人姓名</el-button>
           </el-form-item>
-          <el-form-item label="您与保险人关系" prop="relation">
-            <el-select v-model="ruleForm.relation" placeholder="请点击选择">
+          <el-form-item class="pr" prop="relation">
+            <el-select v-model="ruleForm.relation" placeholder="请点击选择" style="width:100%">
               <el-option label="本人" value="oneself"></el-option>
               <el-option label="家属" value="familymembers"></el-option>
               <el-option label="朋友" value="friend"></el-option>
@@ -68,40 +69,47 @@
               <el-option label="线上平台" value="onlineplatform"></el-option>
               <el-option label="其他" value="others"></el-option>
             </el-select>
+            <el-button type="primary" class="code-btn">您与保险人关系</el-button>
           </el-form-item>
-          <el-form-item label="报案人电话" prop="phone">
+          <el-form-item class="pr" prop="phone" style="padding-bottom:10px">
             <el-input v-model="ruleForm.phone">15150570995</el-input>
+            <el-button type="primary" class="code-btn">报案人电话</el-button>
           </el-form-item>
         </el-form>
       </div>
+      <!-- 出险信息 -->
       <div class="information-data">
-        <h2>出险信息</h2>
+        <div class="infomation-title">
+          <span></span>
+          <p>出险信息</p>
+        </div>
         <!-- 出险日期 -->
         <el-form
           :model="ruleForm"
           :rules="rules"
           ref="ruleForm"
           label-width="100px"
-          class="demo-ruleForm"
+          class="demo-ruleForm3"
         >
-          <el-form-item label="出险日期" required>
+          <el-form-item class="pr" required>
             <el-col :span="11">
               <el-form-item prop="date1">
                 <el-date-picker
                   type="date"
                   placeholder="选择日期"
                   v-model="ruleForm.date1"
-                  style="width: 200%;"
+                  style="width: 210%;"
                 ></el-date-picker>
               </el-form-item>
             </el-col>
+            <el-button type="primary" class="code-btn">出险日期</el-button>
           </el-form-item>
           <!-- 出险时间 -->
           <el-form-item label="出险时间" required>
             <el-col class="line" :span="2"></el-col>
             <el-col :span="11">
               <el-form-item prop="date2">
-                <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 200%;"></el-time-picker>
+                <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 210%;"></el-time-picker>
               </el-form-item>
             </el-col>
           </el-form-item>
@@ -112,30 +120,35 @@
               :options="options"
               v-model="selectedOptions"
               @change="handleChange"
+              style="width:96%"
             ></el-cascader>
-            <el-input v-model="ruleForm.address" placeholder="请补充完整出险地点"></el-input>
+            <el-input v-model="ruleForm.address" placeholder="请补充完整出险地点" style="padding-bottom:10px"></el-input>
           </el-form-item>
           <!-- 出险经过 -->
           <el-form-item label="出险经过" prop="desc">
             <!-- <el-input type="textarea" v-model="ruleForm.desc" placeholder="描述不得超过120字" @input="widthCheck($event.target, 120)"></el-input> -->
             <el-input
-  type="textarea"
-  placeholder="描述不得超过120字"
-  v-model="ruleForm.desc"
-  maxlength="120"
-  show-word-limit
->
-</el-input>
+              type="textarea"
+              placeholder="描述不得超过120字"
+              v-model="ruleForm.desc"
+              maxlength="120"
+              show-word-limit
+              style="width:96%"
+            ></el-input>
           </el-form-item>
           <!-- 索赔总金额 -->
           <el-form-item label="索赔总金额" prop="totalmoney">
-            <el-input v-model="ruleForm.totalmoney" placeholder="点击录入"></el-input>
+            <el-input v-model="ruleForm.totalmoney" placeholder="点击录入">元</el-input>
           </el-form-item>
         </el-form>
+         <div class="btns">
+
+    <el-button type="primary">提交</el-button>
+         </div>
+          
       </div>
     </div>
     <!-- 提交按钮 -->
-    <div class="submitbutton" @click="registsubmit">提交</div>
   </div>
 </template>
 
@@ -150,6 +163,7 @@ export default {
       ruleForm: {
         tel: "",
         number: "",
+        name: "",
         origin: "",
         relation: "",
         date1: "",
@@ -164,9 +178,7 @@ export default {
         origin: [
           { required: true, message: "请选择购买平台/来源", trigger: "change" }
         ],
-        name: [
-          { required: true, message: "请输入您的姓名", trigger: "change" }
-        ],
+        name: [{ required: true, message: "请输入您的姓名", trigger: "blur" }],
         relation: [
           { required: true, message: "请选择您与保险人关系", trigger: "change" }
         ],
@@ -216,83 +228,110 @@ export default {
       for (let i = 0; i < this.selectedOptions.length; i++) {
         loc += CodeToText[this.selectedOptions[i]];
       }
-      console.log(loc)
+      console.log(loc);
     },
-    // 限制输入框输入的字符数
-    widthCheck (str, len) {
-      var temp = 0
-      for (var i = 0; i < str.value.length; i++) {
-        if (/[\u4e00-\u9fa5]/.test(str.value[i])) {
-          temp += 2
-        } else {
-          temp++
-        }
-        if (temp > len) {
-          str.value = str.value.substr(0, i)
-        }
-      }
+    // 返回
+    comeBack(){
+      this.$router.push('/home')
     },
     // 提交
-    registsubmit(){
-
+    registsubmit() {},
+    //打开提示
+    open() {
+      this.$alert(
+        "预报案信息提交后请不要退出，稍后需要您上传影像资料（文件格式为图片或者pdf），若您不小心退出，请在信息查询进行补传，否则案件预报案可能会被驳回！",
+        "信息",
+        {
+          confirmButtonText: "确定"
+          // callback: action => {
+          //   this.$message({
+          //     type: "info",
+          //     // message: `action: ${action}`
+          //   });
+          // }
+        }
+      );
     }
   }
 };
 </script>
 <style lang="less">
 @import "../assets/base.less";
-.navBtn {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  color: #f8f8f8;
-  background: #333;
+.header {
   width: 100%;
-  height: 50px;
-  ul {
-    display: flex;
-    li {
-      display: inline-block;
-      height: 50px;
-      flex: 1;
-      text-align: center;
-      line-height: 50px;
-      p {
-        color: #f8f8f8;
-        font-size: 14px;
-      }
-      p.regbtn {
-        color: orange;
-      }
-    }
+  border-bottom: 1px solid #bebcbc;
+  .el-icon-arrow-left {
+    color: #bebcbc;
+    position: absolute;
+    top: 9px;
+    left: 0;
+    display: inline-block;
+    padding-left: 5px;
+    font-size: 30px;
+  }
+  p {
+    margin: 0;
+    line-height: 49px;
+    font-size: 16px;
+    text-align: center;
   }
 }
 .forminfo {
-  margin-top: 50px;
   background-color: #f0eff4;
   padding-bottom: 180px;
-  h2 {
-    padding: 2px;
-    font-weight: bold;
-    font-size: 20px;
-    margin-bottom: 5px;
-  }
   .information-data {
     background-color: #ffffff;
-    margin-bottom: -10px;
+    margin-bottom: 3px;
+    .infomation-title {
+      display: flex;
+      // justify-content: center;
+      align-items: center;
+      span {
+        display: inline-block;
+        width: 3px;
+        height: 12px;
+        margin: 10px;
+        background: rgb(92, 167, 252);
+      }
+      p{
+        display: inline;
+      }
+    }
   }
+  .el-form-item{
+    margin-bottom: 0;
+      .el-input__inner {
+        border: none;
+        border-bottom: 1px solid #cccccc !important;
+        border-radius: 0;
+        padding:0 0 0 159px
+      }
+  }
+ .pr {
+        position: relative;
+      }
+      .code-btn {
+        width: 100px;
+        height: 20px;
+        position: absolute;
+        top: 3px;
+        left: 10px;
+        z-index: 222;
+        color: #303133;
+        font-size: 14px;
+        border: none;
+        background-color: #fff;
+        outline: none;
+      }
+  .btns {
+        margin-top: 20px;
+        .el-button {
+          background-color: #bebcbc;
+          width: 89%;
+          margin: 20px;
+          border: none;
+        }
+      }
 }
-.submitbutton{
-  background: url("/img/bottom.png") 100% no-repeat;
-  width: 100%;
-  height: 60px;
-  color: white;
-  font-size: 18px;
-  text-align: center;
-  line-height: 60px;
-  margin: 0 auto;
-  position: fixed;
-  bottom: 0;
-}
+
 </style>

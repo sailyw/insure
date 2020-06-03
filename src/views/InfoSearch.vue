@@ -1,20 +1,5 @@
 <template>
   <div id="registration">
-    <!-- 导航头 -->
-    <div class="navBtn">
-      <ul>
-        <li>
-          <router-link to="/registration">
-            <p class="regbtn">预报案登记</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/infoSearch">
-            <p class="selectbtn">信息查询</p>
-          </router-link>
-        </li>
-      </ul>
-    </div>
     <!-- 信息查询 -->
     <main>
       <div class="insure-search">
@@ -86,30 +71,6 @@ export default {
 <style lang="less" scoped>
 @import "../assets/base.less";
 #registration{
-  // min-height: 100vh;
-  .navBtn {
-    color: #f8f8f8;
-    background: #333;
-    width: 100%;
-    height: 50px;
-    ul {
-      display: flex;
-      li {
-        display: inline-block;
-        height: 50px;
-        flex: 1;
-        text-align: center;
-        line-height: 50px;
-        p {
-          color: #f8f8f8;
-          font-size: 14px;
-        }
-        p.selectbtn {
-          color: orange;
-        }
-      }
-    }
-  }
   main {
     background-color: #f0eff4;
     padding: 8px;

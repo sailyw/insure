@@ -3,34 +3,30 @@
     <!-- 头部 -->
     <header class="header">
       <i class="el-icon-arrow-left"></i>
-      <p>
-        <img src="img/logo.png" alt="logo" />&nbsp;VIP客户理赔平台
-      </p>
+      <p>VIP客户理赔平台</p>
     </header>
     <main>
-      <div class="register" style="background:#f0eff4">
-        <div class="res-item">
-          <input type="tel" v-model="usercode" placeholder="手机号" class="input-item mobile" />
-          <i class="el-icon-phone res-icon"></i>
-        </div>
-        <div class="res-item">
-          <input type="text" v-model="password" placeholder="验证码" class="input-item yanzheng" />
-          <i class="el-icon-mobile-phone res-icon"></i>
-          <button type="button" class="yanzhengma" @click="send">点击获取验证码</button>
-        </div>
+      <div class="picclogo">
+        <img src="img/logo.png" alt="logo" />
       </div>
-      <slide-verify
-        :l="42"
-        :r="10"
-        :w="310"
-        :h="155"
-        slider-text="向右滑动滑块填充拼图"
-        @success="onSuccess"
-        @fail="onFail"
-        @refresh="onRefresh"
-      ></slide-verify>
-      <div class="res-btn">
-        <button type="button" id="res-btn" :disabled="dis" @click="denglu">{{msg}}</button>
+      <!-- 登陆表单 -->
+      <div class="wrapper">
+        <el-form :model="loginForm" :rules="loginFormRules" label-width="0" class="login_form">
+          <el-form-item prop="phoneNum">
+            <el-input v-model="loginForm.phoneNum" placeholder="输入手机号"></el-input>
+          </el-form-item>
+          <el-form-item prop="phoneCode" class="pr">
+            <el-input v-model="loginForm.phoneCode" type="password" placeholder="输入手机验证码"></el-input>
+            <button @click.prevent="getCode()" class="code-btn" :disabled="!show">
+              <span v-show="show">获取验证码</span>
+              <span v-show="!show" class="count">{{count}} s</span>
+            </button>
+          </el-form-item>
+          <!-- 按钮区域 -->
+          <el-form-item class="btns">
+            <el-button type="primary" @click="handleLogin" :disabled="isClick">登录</el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </main>
   </div>
@@ -41,49 +37,70 @@ export default {
   name: "Login",
   data() {
     return {
-      input: "",
-      msg: "一键登录",
-      dis: true,
-      usercode: "",
-      password: ""
+      //这是登录表单的数据绑定对象
+      loginForm: {
+        phoneNum: "",
+        phoneCode: ""
+      },
+      rules:[{
+
+      }],
+      show: true,
+      count: 0,
+      timer: "",
+      disabled: false //是否可点击
     };
   },
+  computed: {
+    //手机号和验证码都不能为空
+    isClick() {
+      if (!this.loginForm.phoneNum || !this.loginForm.phoneCode) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
   methods: {
-    onSuccess() {
-      this.msg = "验证成功，点击登录";
-      this.dis = false;
-    },
-    onFail() {
-      this.msg = "一键登录";
-    },
-    onRefresh() {
-      this.msg = "一键登录";
-    },
-    denglu() {
+    handleLogin() {
       if (this.usercode === null && this.password === undefined) {
         alert("请输入手机号");
-      }else{
-        this.$router.push("/registration");
+      } else {
+        this.$router.push("/home");
       }
     },
     send() {
       // console.log("dsg")
+    },
+    getCode() {
+      console.log(this.loginForm.phoneNum);
+      // 验证码倒计时
+      if (!this.timer) {
+        this.count = 60;
+        this.show = false;
+        this.timer = setInterval(() => {
+          if (this.count > 0 && this.count <= 60) {
+            this.count--;
+          } else {
+            this.show = true;
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        }, 1000);
+      }
     }
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 @import "../assets/base.less";
 #login {
   .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
     width: 100%;
-    background-color: #333;
-    color: #ffffff;
+    // background-color: #fff;
+    border-bottom: 1px solid #bebcbc;
     .el-icon-arrow-left {
+      color: #bebcbc;
       position: absolute;
       top: 9px;
       left: 0;
@@ -96,73 +113,57 @@ export default {
       line-height: 49px;
       font-size: 16px;
       text-align: center;
-      img {
-        box-sizing: border-box;
-        vertical-align: middle;
-      }
     }
   }
   main {
-    background: #f0eff4;
-    padding: 8px;
-    min-height: 651px;
-    .register {
-      background: #f0eff4;
-      margin-top: 53px;
-      .res-item {
-        position: relative;
-        width: 100%;
-        border-radius: 4px;
-        margin-bottom: 8px;
-        background-color: #fff;
-        .input-item {
-          display: inline-block;
-          width: 92%;
-          padding-left: 31px;
-          height: 40px;
-          border: red;
-          font-size: inherit;
-          vertical-align: middle;
-        }
-        .res-icon {
-          position: absolute;
-          left: 8px;
-          top: 11px;
-          z-index: 100;
-          display: inline-block;
-          font-size: 18px;
-          color: #9c9c9c;
-        }
-        .yanzhengma {
-          position: absolute;
-          right: 10px;
-          top: 5px;
-          z-index: 100;
-          display: inline-block;
-          padding: 0.5rem 0.8rem;
-          font-size: 14px;
-          border: none;
-          background-color: #e21945;
-          color: #ffffff;
-          border-radius: 8px;
-        }
+    .picclogo{
+      margin: 30px auto;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 1px solid #cccccc;
+      position: relative;
+      img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -30px;
+        margin-top: -30px;
       }
     }
-  }
-  .res-btn {
-    margin-top: 10px;
-    padding: 0 5px;
-    #res-btn {
-      display: block;
-      background-color: #e21945;
-      font-size: 14px;
-      color: #ffffff;
-      border-radius: 8px;
-      width: 100%;
-      height: 36px;
-      line-height: 36px;
-      opacity: 0.45;
-      border: none;
+    .wrapper {
+      width: 340px;
+      margin: 0 auto;
+      .pr {
+        position: relative;
+      }
+      .code-btn {
+        width: 100px;
+        height: 20px;
+        position: absolute;
+        top: 10px;
+        right: 5px;
+        z-index: 222;
+        color: #ef8466;
+        font-size: 14px;
+        border: none;
+        background-color: #fff;
+        outline: none;
+        cursor: pointer;
+      }
+      .el-input__inner {
+        border: none;
+        border-bottom: 1px solid #bebcbc;
+        border-radius: 0;
+      }
+      .btns {
+        margin-top: 20px;
+        .el-button {
+          background-color: #bebcbc;
+          width: 100%;
+          border: none;
+        }
+      }
     }
   }
 }
