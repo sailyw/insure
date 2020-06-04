@@ -86,11 +86,11 @@
           :rules="rules"
           ref="ruleForm"
           label-width="141px"
-          class="demo-ruleForm3"
+          class="demo-ruleForm"
         >
           <el-form-item label="出险日期" required>
             <el-col :span="11">
-              <el-form-item prop="date1" style="border:none">
+              <el-form-item prop="date1" style="border:none;margin-bottom: 0;">
                 <el-date-picker
                   type="date"
                   placeholder="选择日期"
@@ -104,7 +104,7 @@
           <el-form-item label="出险时间" required>
             <el-col class="line" :span="2"></el-col>
             <el-col :span="11">
-              <el-form-item prop="date2" style="border:none">
+              <el-form-item prop="date2" style="border:none;margin-bottom: 0;">
                 <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 210%;"></el-time-picker>
               </el-form-item>
             </el-col>
@@ -116,7 +116,7 @@
               :options="options"
               v-model="selectedOptions"
               @change="handleChange"
-              style="width:96%"
+              style="width:96%;margin-bottom:0;"
             ></el-cascader>
             <el-input
               v-model="ruleForm.address"
@@ -141,7 +141,7 @@
           </el-form-item>
         </el-form>
         <div class="btns">
-          <el-button type="primary">提交</el-button>
+          <el-button :plain="true" type="primary" @click="submitForm('ruleForm')">提交</el-button>
         </div>
       </div>
     </div>
@@ -161,16 +161,15 @@ export default {
       options: regionData,
       selectedOptions: [],
       ruleForm: {
-        tel: "",
-        number: "",
-        name: "",
-        origin: "",
-        relation: "",
-        date1: "",
-        date2: "",
-        resource: "",
-        address: "",
-        desc: ""
+        tel: "",//联系人电话
+        number: "",//保单号
+        origin: "",//保险购买平台/来源
+        name: "",//报案人姓名
+        relation: "",//与保险人关系
+        date1: "",//出险日期
+        date2: "",//出险时间
+        address: "",//出险地点
+        desc: ""//出现经过
       },
       rules: {
         tel: [{ required: true, message: "请输入联系人电话", trigger: "blur" }],
@@ -224,16 +223,16 @@ export default {
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert("submit!");
+       if (valid) {
+          this.$message({
+            message: "提交成功",
+            type: "success"
+          });
         } else {
           console.log("error submit!!");
           return false;
         }
       });
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
     },
     handleChange() {
       // console.log(value); // value值为区域码
@@ -285,7 +284,7 @@ export default {
 .forminfo {
   background-color: rgb(249, 249, 249);
   padding-bottom: 180px;
-  margin: 60px auto;
+  margin: 60px auto 0;
   .information-data {
     background-color: #ffffff;
     margin-bottom: 8px;
@@ -309,7 +308,7 @@ export default {
     margin: 0 8px;
   }
   .el-form-item {
-    margin-bottom: 15px;
+    margin-bottom: 14px;
     border-bottom: 1px solid #e5e5e5;
     .el-input__inner {
       border: none;
@@ -359,6 +358,7 @@ export default {
       height: 45px;
       margin: 20px;
       border: none;
+      color: #ffffff;
     }
   }
 }

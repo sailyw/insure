@@ -20,9 +20,9 @@
         >
           <el-form-item prop="phoneNum" class="pr">
             <el-input v-model="loginForm.phoneNum" type="text" placeholder="输入手机号"></el-input>
-            <!-- @click.prevent="getCode()"  -->
+            <!-- @click.prevent="getCode()" @click="dialogVisible = true" -->
             <el-button @click="dialogVisible = true" class="code-btn" :disabled="!show">
-              <span v-show="show">获取验证码</span>
+              <span v-show="show" @click="smsCode">获取验证码</span>
               <span v-show="!show" class="count">{{count}} s</span>
             </el-button>
             <el-dialog :visible.sync="dialogVisible" width="100%" :before-close="handleClose">
@@ -47,7 +47,12 @@
           </el-form-item>
           <!-- 按钮区域 -->
           <el-form-item class="btns">
-            <el-button type="primary" @click="handleLogin" :disabled="isClick">登录</el-button>
+            <el-button
+              type="primary"
+              :plain="true"
+              @click="submitForm('ruleForm')"
+              :disabled="isClick"
+            >登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -61,17 +66,24 @@ export default {
   data() {
     //手机号是否合法
     let validPhone = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("手机号不能为空"));
+      if (value === '') {
+        callback(new Error('请输入手机号码'))
+      } else if (!this.checkMobile(value)) {
+        callback(new Error('手机号码不合法'))
       } else {
-        const reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
-        console.log(reg.test(value));
-        if (reg.test(value)) {
-          callback();
-        } else {
-          return callback(new Error("请输入正确的手机号"));
-        }
+        callback()
       }
+      // if (!value) {
+      //   return callback(new Error("手机号不能为空"));
+      // } else {
+      //   const reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
+      //   console.log(reg.test(value));
+      //   if (reg.test(value)) {
+      //     callback();
+      //   } else {
+      //     return callback(new Error("请输入正确的手机号"));
+      //   }
+      // }
     };
     //验证码是否为空
     let validSmscode = (rule, value, callback) => {
@@ -97,11 +109,11 @@ export default {
       rules: {
         phoneNum: [
           { validator: validPhone, trigger: "blur" },
-          { min: 11, max: 11, trigger: "blur" }
+          // { min: 11, max: 11, trigger: "blur" }
         ],
         phoneCode: [
           { validator: validSmscode, trigger: "blur" },
-          { min: 6, max: 6, trigger: "blur" }
+          // { min: 6, max: 6, trigger: "blur" }
         ]
       },
       show: true,
@@ -123,17 +135,7 @@ export default {
     }
   },
   methods: {
-    handleLogin() {
-      console.log(111);
-      if (this.phoneNum === null && this.phoneCode === null) {
-        alert("请输入手机号或验证码");
-      } else {
-        this.$router.push("/home");
-      }
-    },
-    send() {
-      // console.log("dsg")
-    },
+    //弹出框确认关闭
     handleClose(done) {
       this.$confirm("确认关闭？")
         .then(() => {
@@ -141,6 +143,7 @@ export default {
         })
         .catch(() => {});
     },
+    // 图片验证码验证成功
     onSuccess() {
       this.dialogVisible = false;
       if (!this.timer) {
@@ -163,21 +166,29 @@ export default {
     onRefresh() {
       // this.msg = ''
     },
-    getCode() {
-      console.log(this.loginForm.phoneNum);
-      // 验证码倒计时
-      if (!this.timer) {
-        this.count = 60;
-        this.show = false;
-        this.timer = setInterval(() => {
-          if (this.count > 0 && this.count <= 60) {
-            this.count--;
-          } else {
-            this.show = true;
-            clearInterval(this.timer);
-            this.timer = null;
-          }
-        }, 1000);
+    smsCode() {},
+    //提交登录
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$message({
+            message: "登录成功",
+            type: "success"
+          });
+          this.$router.push("/home");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    // 验证手机号
+    checkMobile(str){
+      let re = /^1[3|4|5|7|8][0-9]\d{8}$/;
+      if (re.test(str)) {
+        return true;
+      } else {
+        return false;
       }
     }
   }
@@ -255,6 +266,7 @@ export default {
       .btns {
         margin-top: 20px;
         .el-button {
+          color: #ffffff;
           background-color: rgb(247, 105, 104);
           box-shadow: rgba(241, 119, 119, 0.308) 0px 4px 6px 1px;
           width: 100%;
