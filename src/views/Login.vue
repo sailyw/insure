@@ -11,13 +11,36 @@
       </div>
       <!-- 登陆表单 -->
       <div class="wrapper">
-        <el-form ref="ruleForm" :rules="rules" :model="loginForm" label-width="0" class="login_form">
+        <el-form
+          ref="ruleForm"
+          :rules="rules"
+          :model="loginForm"
+          label-width="0"
+          class="login_form"
+        >
           <el-form-item prop="phoneNum" class="pr">
             <el-input v-model="loginForm.phoneNum" type="text" placeholder="输入手机号"></el-input>
-            <button @click.prevent="getCode()" class="code-btn" :disabled="!show">
+            <!-- @click.prevent="getCode()"  -->
+            <el-button @click="dialogVisible = true" class="code-btn" :disabled="!show">
               <span v-show="show">获取验证码</span>
               <span v-show="!show" class="count">{{count}} s</span>
-            </button>
+            </el-button>
+            <el-dialog :visible.sync="dialogVisible" width="100%" :before-close="handleClose">
+              <slide-verify
+                :l="42"
+                :r="10"
+                :w="310"
+                :h="155"
+                slider-text="向右滑动"
+                @success="onSuccess"
+                @fail="onFail"
+                @refresh="onRefresh"
+              ></slide-verify>
+              <!-- <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              </span>-->
+            </el-dialog>
           </el-form-item>
           <el-form-item prop="phoneCode">
             <el-input v-model="loginForm.phoneCode" type="password" placeholder="输入手机验证码"></el-input>
@@ -36,26 +59,62 @@
 export default {
   name: "Login",
   data() {
+    //手机号是否合法
+    let validPhone = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("手机号不能为空"));
+      } else {
+        const reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
+        console.log(reg.test(value));
+        if (reg.test(value)) {
+          callback();
+        } else {
+          return callback(new Error("请输入正确的手机号"));
+        }
+      }
+    };
+    //验证码是否为空
+    let validSmscode = (rule, value, callback) => {
+      // eslint-disable-line no-unused-vars
+      if (!value) {
+        return callback(new Error("验证码不能为空"));
+      } else {
+        const reg = /\d{6}$/;
+        console.log(reg.test(value));
+        if (reg.test(value)) {
+          callback();
+        } else {
+          return callback(new Error("请输入正确的验证码"));
+        }
+      }
+    };
     return {
       //这是登录表单的数据绑定对象
       loginForm: {
         phoneNum: "",
         phoneCode: ""
       },
-      rules:{
-        phoneNum:[
-          
+      rules: {
+        phoneNum: [
+          { validator: validPhone, trigger: "blur" },
+          { min: 11, max: 11, trigger: "blur" }
+        ],
+        phoneCode: [
+          { validator: validSmscode, trigger: "blur" },
+          { min: 6, max: 6, trigger: "blur" }
         ]
       },
       show: true,
       count: 0,
       timer: "",
-      disabled: false //是否可点击
+      disabled: false, //是否可点击
+      dialogVisible: false
     };
   },
   computed: {
     //手机号和验证码都不能为空
     isClick() {
+      console.log(this.loginForm.phoneNum);
       if (!this.loginForm.phoneNum || !this.loginForm.phoneCode) {
         return true;
       } else {
@@ -65,15 +124,44 @@ export default {
   },
   methods: {
     handleLogin() {
-      console.log(111)
-      if (this.usercode === null && this.password === undefined) {
-        alert("请输入手机号");
+      console.log(111);
+      if (this.phoneNum === null && this.phoneCode === null) {
+        alert("请输入手机号或验证码");
       } else {
         this.$router.push("/home");
       }
     },
     send() {
       // console.log("dsg")
+    },
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(() => {
+          done();
+        })
+        .catch(() => {});
+    },
+    onSuccess() {
+      this.dialogVisible = false;
+      if (!this.timer) {
+        this.count = 60;
+        this.show = false;
+        this.timer = setInterval(() => {
+          if (this.count > 0 && this.count <= 60) {
+            this.count--;
+          } else {
+            this.show = true;
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        }, 1000);
+      }
+    },
+    onFail() {
+      // this.msg = ''
+    },
+    onRefresh() {
+      // this.msg = ''
     },
     getCode() {
       console.log(this.loginForm.phoneNum);

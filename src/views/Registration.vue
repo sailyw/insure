@@ -5,6 +5,7 @@
       <p>预报案登记</p>
     </header>-->
     <Nav />
+    
     <div class="forminfo">
       <!-- 保单信息 -->
       <div class="information-data">
@@ -21,11 +22,9 @@
         >
           <el-form-item prop="tel" label="联系人电话">
             <el-input v-model="ruleForm.tel" placeholder="请输入联系人电话"></el-input>
-            <!-- <el-button type="primary" class="code-btn">联系人电话</el-button> -->
           </el-form-item>
           <el-form-item prop="number" label="保单号">
             <el-input v-model="ruleForm.number" placeholder="请输入保单号"></el-input>
-            <!-- <el-button type="primary" class="code-btn">保单号</el-button> -->
           </el-form-item>
           <el-form-item prop="origin" label="保险购买平台/来源" style="border-bottom:none">
             <el-select v-model="ruleForm.origin" placeholder="请点击选择" style="width:100%">
@@ -37,7 +36,6 @@
               <el-option label="新一站（含天猫旗舰店）" value="newone"></el-option>
               <el-option label="其他" value="others"></el-option>
             </el-select>
-            <!-- <el-button type="primary" class="code-btn">保险购买平台/来源</el-button> -->
           </el-form-item>
         </el-form>
       </div>
@@ -56,7 +54,6 @@
         >
           <el-form-item label="报案人姓名" prop="name">
             <el-input v-model="ruleForm.name" placeholder="请输入您的姓名"></el-input>
-            <!-- <el-button type="primary" class="code-btn">报案人姓名</el-button> -->
           </el-form-item>
           <el-form-item label="您与保险人关系" prop="relation">
             <el-select v-model="ruleForm.relation" placeholder="请点击选择" style="width:100%">
@@ -71,11 +68,9 @@
               <el-option label="线上平台" value="onlineplatform"></el-option>
               <el-option label="其他" value="others"></el-option>
             </el-select>
-            <!-- <el-button type="primary" class="code-btn">您与保险人关系</el-button> -->
           </el-form-item>
           <el-form-item label="报案人电话" prop="phone" style="border-bottom:none">
             <el-input v-model="ruleForm.phone">15150570995</el-input>
-            <!-- <el-button type="primary" class="code-btn">报案人电话</el-button> -->
           </el-form-item>
         </el-form>
       </div>
@@ -104,7 +99,6 @@
                 ></el-date-picker>
               </el-form-item>
             </el-col>
-            <!-- <el-button type="primary" class="code-btn">出险日期</el-button> -->
           </el-form-item>
           <!-- 出险时间 -->
           <el-form-item label="出险时间" required>
@@ -132,7 +126,6 @@
           </el-form-item>
           <!-- 出险经过 -->
           <el-form-item label="出险经过" prop="desc">
-            <!-- <el-input type="textarea" v-model="ruleForm.desc" placeholder="描述不得超过120字" @input="widthCheck($event.target, 120)"></el-input> -->
             <el-input
               type="text"
               placeholder="描述不得超过120字"
@@ -212,6 +205,22 @@ export default {
       }
     };
   },
+  created(){
+    console.log("create------------------")
+      this.$alert(
+        "预报案信息提交后请不要退出，稍后需要您上传影像资料（文件格式为图片或者pdf），若您不小心退出，请在信息查询进行补传，否则案件预报案可能会被驳回！",
+        "信息",
+        {
+          confirmButtonText: "确定"
+          // callback: action => {
+          //   this.$message({
+          //     type: "info",
+          //     // message: `action: ${action}`
+          //   });
+          // }
+        }
+      );
+  },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -244,21 +253,7 @@ export default {
     // 提交
     registsubmit() {},
     //打开提示
-    open() {
-      this.$alert(
-        "预报案信息提交后请不要退出，稍后需要您上传影像资料（文件格式为图片或者pdf），若您不小心退出，请在信息查询进行补传，否则案件预报案可能会被驳回！",
-        "信息",
-        {
-          confirmButtonText: "确定"
-          // callback: action => {
-          //   this.$message({
-          //     type: "info",
-          //     // message: `action: ${action}`
-          //   });
-          // }
-        }
-      );
-    }
+   
   }
 };
 </script>
@@ -282,6 +277,10 @@ export default {
     font-size: 16px;
     text-align: center;
   }
+}
+.el-message-box{
+  margin-top: 60px;
+  width: 98%;
 }
 .forminfo {
   background-color: rgb(249, 249, 249);
@@ -323,6 +322,9 @@ export default {
     }
     .el-textarea__inner{
       border: none;
+    }
+    .el-form-item__error{
+      left: 14px;
     }
   }
   .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label::after {

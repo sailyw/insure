@@ -44,7 +44,7 @@ export default {
 // @import "../assets/base.less";
 .nav {
   position: fixed;
-  z-index: 9999;
+  z-index: 99;
   top: 0;
   left: 0;
   right: 0;
