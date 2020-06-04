@@ -70,7 +70,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="报案人电话" prop="phone" style="border-bottom:none">
-            <el-input v-model="ruleForm.phone">15150570995</el-input>
+            <el-input v-model="ruleForm.phone"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -157,6 +157,19 @@ export default {
   name: "Registration",
   components: { Nav },
   data() {
+    let validPhone = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("手机号不能为空"));
+      } else {
+        const reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
+        console.log(reg.test(value));
+        if (reg.test(value)) {
+          callback();
+        } else {
+          return callback(new Error("请输入正确的手机号"));
+        }
+      }
+    };
     return {
       options: regionData,
       selectedOptions: [],
@@ -172,7 +185,8 @@ export default {
         desc: ""//出现经过
       },
       rules: {
-        tel: [{ required: true, message: "请输入联系人电话", trigger: "blur" }],
+        tel: [
+        {required: true,validator:validPhone,trigger:'blur'}],
         number: [{ required: true, message: "请输入保单号", trigger: "blur" }],
         origin: [
           { required: true, message: "请选择购买平台/来源", trigger: "change" }

@@ -18,6 +18,7 @@ Vue.use(VueRouter)
   },
   {
     path: '/registration',
+    name:'registration',
     component:Registration
   },
   {

@@ -132,6 +132,9 @@ export default {
           margin-left: 0 !important;
           margin-bottom: 20px;
         }
+        .el-table th>.cell{
+          text-align: center;
+        }
       }
       .tablecase{
         margin: 0 10px;
