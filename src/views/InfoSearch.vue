@@ -52,24 +52,24 @@ export default {
       },
       tableData: [
         {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          caseState: "1",
+          temporaryno: "123456",
+          policyno: "1516"
         },
         {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
+          caseState: "2",
+          temporaryno: "123456",
+          policyno: "1517"
         },
         {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
+          caseState: "3",
+          temporaryno: "123456",
+          policyno: "1518"
         },
         {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
+          caseState: "4",
+          temporaryno: "123456",
+          policyno: "1519"
         }
       ]
     };
@@ -132,10 +132,10 @@ export default {
           margin-left: 0 !important;
           margin-bottom: 20px;
         }
-        .el-table th>.cell{
-          text-align: center;
-        }
       }
+          .el-table th>.cell{
+            // text-align: center;
+          }
       .tablecase{
         margin: 0 10px;
       }

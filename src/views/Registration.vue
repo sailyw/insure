@@ -5,28 +5,28 @@
       <p>预报案登记</p>
     </header>-->
     <Nav />
-    
+
     <div class="forminfo">
-      <!-- 保单信息 -->
-      <div class="information-data">
-        <div class="infomation-title">
-          <span></span>
-          <p>保单信息</p>
-        </div>
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="141px"
-          class="demo-ruleForm"
-        >
+      <el-form
+        :model="ruleForm"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="141px"
+        class="demo-ruleForm"
+      >
+        <!-- 保单信息 -->
+        <div class="information-data">
+          <div class="infomation-title">
+            <span></span>
+            <p>保单信息</p>
+          </div>
           <el-form-item prop="tel" label="联系人电话">
             <el-input v-model="ruleForm.tel" placeholder="请输入联系人电话"></el-input>
           </el-form-item>
           <el-form-item prop="number" label="保单号">
             <el-input v-model="ruleForm.number" placeholder="请输入保单号"></el-input>
           </el-form-item>
-          <el-form-item prop="origin" label="保险购买平台/来源" style="border-bottom:none">
+          <el-form-item prop="origin" label="保险购买平台/来源" style="border-bottom:none;padding-bottom:20px;">
             <el-select v-model="ruleForm.origin" placeholder="请点击选择" style="width:100%">
               <el-option label="中小学生平安保险" value="student"></el-option>
               <el-option label="南钢集团补充医疗" value="nangang"></el-option>
@@ -37,21 +37,13 @@
               <el-option label="其他" value="others"></el-option>
             </el-select>
           </el-form-item>
-        </el-form>
-      </div>
-      <!-- 报案人信息 -->
-      <div class="information-data">
-        <div class="infomation-title">
-          <span></span>
-          <p>报案人信息</p>
         </div>
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="141px"
-          class="demo-ruleForm"
-        >
+        <!-- 报案人信息 -->
+        <div class="information-data">
+          <div class="infomation-title">
+            <span></span>
+            <p>报案人信息</p>
+          </div>
           <el-form-item label="报案人姓名" prop="name">
             <el-input v-model="ruleForm.name" placeholder="请输入您的姓名"></el-input>
           </el-form-item>
@@ -72,22 +64,14 @@
           <el-form-item label="报案人电话" prop="phone" style="border-bottom:none">
             <el-input v-model="ruleForm.phone"></el-input>
           </el-form-item>
-        </el-form>
-      </div>
-      <!-- 出险信息 -->
-      <div class="information-data">
-        <div class="infomation-title">
-          <span></span>
-          <p>出险信息</p>
         </div>
-        <!-- 出险日期 -->
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="141px"
-          class="demo-ruleForm"
-        >
+        <!-- 出险信息 -->
+        <div class="information-data">
+          <div class="infomation-title">
+            <span></span>
+            <p>出险信息</p>
+          </div>
+          <!-- 出险日期 -->
           <el-form-item label="出险日期" required>
             <el-col :span="11">
               <el-form-item prop="date1" style="border:none;margin-bottom: 0;">
@@ -139,11 +123,11 @@
           <el-form-item label="索赔总金额" prop="totalmoney">
             <el-input v-model="ruleForm.totalmoney" placeholder="点击录入">元</el-input>
           </el-form-item>
-        </el-form>
-        <div class="btns">
-          <el-button :plain="true" type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <div class="btns">
+            <el-button :plain="true" type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          </div>
         </div>
-      </div>
+      </el-form>
     </div>
     <!-- 提交按钮 -->
   </div>
@@ -174,19 +158,18 @@ export default {
       options: regionData,
       selectedOptions: [],
       ruleForm: {
-        tel: "",//联系人电话
-        number: "",//保单号
-        origin: "",//保险购买平台/来源
-        name: "",//报案人姓名
-        relation: "",//与保险人关系
-        date1: "",//出险日期
-        date2: "",//出险时间
-        address: "",//出险地点
-        desc: ""//出现经过
+        tel: "", //联系人电话
+        number: "", //保单号
+        origin: "", //保险购买平台/来源
+        name: "", //报案人姓名
+        relation: "", //与保险人关系
+        date1: "", //出险日期
+        date2: "", //出险时间
+        address: "", //出险地点
+        desc: "" //出现经过
       },
       rules: {
-        tel: [
-        {required: true,validator:validPhone,trigger:'blur'}],
+        tel: [{ required: true, validator: validPhone, trigger: "blur" }],
         number: [{ required: true, message: "请输入保单号", trigger: "blur" }],
         origin: [
           { required: true, message: "请选择购买平台/来源", trigger: "change" }
@@ -218,26 +201,26 @@ export default {
       }
     };
   },
-  created(){
-    console.log("create------------------")
-      this.$alert(
-        "预报案信息提交后请不要退出，稍后需要您上传影像资料（文件格式为图片或者pdf），若您不小心退出，请在信息查询进行补传，否则案件预报案可能会被驳回！",
-        "信息",
-        {
-          confirmButtonText: "确定"
-          // callback: action => {
-          //   this.$message({
-          //     type: "info",
-          //     // message: `action: ${action}`
-          //   });
-          // }
-        }
-      );
+  created() {
+    console.log("create------------------");
+    this.$alert(
+      "预报案信息提交后请不要退出，稍后需要您上传影像资料（文件格式为图片或者pdf），若您不小心退出，请在信息查询进行补传，否则案件预报案可能会被驳回！",
+      "信息",
+      {
+        confirmButtonText: "确定"
+        // callback: action => {
+        //   this.$message({
+        //     type: "info",
+        //     // message: `action: ${action}`
+        //   });
+        // }
+      }
+    );
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
-       if (valid) {
+        if (valid) {
           this.$message({
             message: "提交成功",
             type: "success"
@@ -264,9 +247,8 @@ export default {
       this.$router.push("/home");
     },
     // 提交
-    registsubmit() {},
+    registsubmit() {}
     //打开提示
-   
   }
 };
 </script>
@@ -291,7 +273,7 @@ export default {
     text-align: center;
   }
 }
-.el-message-box{
+.el-message-box {
   margin-top: 60px;
   width: 98%;
 }
@@ -318,12 +300,9 @@ export default {
       }
     }
   }
-  .el-form {
-    margin: 0 8px;
-  }
   .el-form-item {
-    margin-bottom: 14px;
     border-bottom: 1px solid #e5e5e5;
+    margin: 0 10px 14px;
     .el-input__inner {
       border: none;
       // border-bottom: 1px solid #e5e5e5 !important;
@@ -332,11 +311,12 @@ export default {
     }
     .el-form-item__label {
       text-align: left;
+      // line-height: 33px;
     }
-    .el-textarea__inner{
+    .el-textarea__inner {
       border: none;
     }
-    .el-form-item__error{
+    .el-form-item__error {
       left: 14px;
     }
   }
@@ -370,7 +350,7 @@ export default {
       background-color: rgb(247, 105, 104);
       width: 89%;
       height: 45px;
-      margin: 20px;
+      margin: 20px 10px 40px;
       border: none;
       color: #ffffff;
     }
