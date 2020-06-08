@@ -1,33 +1,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '@/views/Login.vue'
-import Registration from '@/views/Registration.vue'
-import InfoSearch from '@/views/InfoSearch.vue'
-import Home from '@/views/Home.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
   {
     path: '/',
-    component: Login
+    component: ()=>import("@/views/Login.vue")
   },
   {
     path: '/login',
-    component:Login
+    component: ()=>import("@/views/Login.vue")
   },
   {
     path: '/registration',
     name:'registration',
-    component:Registration
+    component: ()=>import("@/views/Registration.vue")
   },
   {
     path: '/infoSearch',
-    component:InfoSearch
+    component: ()=>import("@/views/InfoSearch.vue")
   },
   {
     path:'/home',
-    component:Home
+    component: ()=>import("@/views/Home.vue")
   }
 ]
 
@@ -39,4 +35,14 @@ const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
+//路由守卫
+// router.beforeEach((to,from,next)=>{
+//   const isLogin = localStorage.picc_login?true:false;
+//   if(to.path=='/login'){
+//     next();
+//   }else{
+//     //是否在登录状态下
+//     isLogin ? next() :next("/login");
+//   }
+// })
 export default router

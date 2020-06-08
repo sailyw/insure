@@ -48,7 +48,6 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-
   .el-menu {
     background-color: rgb(227, 69, 80);
     display: flex;
@@ -63,6 +62,9 @@ export default {
   .el-menu--horizontal > .el-menu-item.is-active {
     color: #ffffff;
     border-bottom: 0;
+    font-size: 15px;
   }
+  .el-menu--horizontal>.el-menu-item:not(.is-disabled):focus, .el-menu--horizontal>.el-menu-item:not(.is-disabled):hover, .el-menu--horizontal>.el-submenu .el-submenu__title:hover {
+    background-color: #e34550;}
 }
 </style>

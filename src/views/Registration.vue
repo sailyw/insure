@@ -23,8 +23,8 @@
           <el-form-item prop="tel" label="联系人电话">
             <el-input v-model="ruleForm.tel" placeholder="请输入联系人电话"></el-input>
           </el-form-item>
-          <el-form-item prop="number" label="保单号">
-            <el-input v-model="ruleForm.number" placeholder="请输入保单号"></el-input>
+          <el-form-item prop="policyno" label="保单号">
+            <el-input v-model="ruleForm.policyno" placeholder="请输入保单号"></el-input>
           </el-form-item>
           <el-form-item prop="origin" label="保险购买平台/来源" style="border-bottom:none;padding-bottom:20px;">
             <el-select v-model="ruleForm.origin" placeholder="请点击选择" style="width:100%">
@@ -120,13 +120,13 @@
             ></el-input>
           </el-form-item>
           <!-- 索赔总金额 -->
-          <el-form-item label="索赔总金额" prop="totalmoney">
+          <el-form-item label="索赔总金额" prop="totalmoney" style="border:none">
             <el-input v-model="ruleForm.totalmoney" placeholder="点击录入">元</el-input>
           </el-form-item>
+        </div>
           <div class="btns">
             <el-button :plain="true" type="primary" @click="submitForm('ruleForm')">提交</el-button>
           </div>
-        </div>
       </el-form>
     </div>
     <!-- 提交按钮 -->
@@ -159,7 +159,7 @@ export default {
       selectedOptions: [],
       ruleForm: {
         tel: "", //联系人电话
-        number: "", //保单号
+        policyno: "", //保单号
         origin: "", //保险购买平台/来源
         name: "", //报案人姓名
         relation: "", //与保险人关系
@@ -170,7 +170,7 @@ export default {
       },
       rules: {
         tel: [{ required: true, validator: validPhone, trigger: "blur" }],
-        number: [{ required: true, message: "请输入保单号", trigger: "blur" }],
+        policyno: [{ required: true, message: "请输入保单号", trigger: "blur" }],
         origin: [
           { required: true, message: "请选择购买平台/来源", trigger: "change" }
         ],
@@ -242,10 +242,10 @@ export default {
       }
       console.log(loc);
     },
-    // 返回
-    comeBack() {
-      this.$router.push("/home");
-    },
+    // // 返回
+    // comeBack() {
+    //   this.$router.push("/home");
+    // },
     // 提交
     registsubmit() {}
     //打开提示
@@ -274,8 +274,8 @@ export default {
   }
 }
 .el-message-box {
-  margin-top: 60px;
-  width: 98%;
+  margin-top: 30px;
+  width: 93%;
 }
 .forminfo {
   background-color: rgb(249, 249, 249);
@@ -299,6 +299,9 @@ export default {
         display: inline;
       }
     }
+  }
+  .el-form{
+    background-color: rgb(249,249,249);
   }
   .el-form-item {
     border-bottom: 1px solid #e5e5e5;
@@ -345,12 +348,12 @@ export default {
     outline: none;
   }
   .btns {
-    margin-top: 20px;
+    margin:50px 10px 0;
     .el-button {
       background-color: rgb(247, 105, 104);
-      width: 89%;
+      width: 100%;
       height: 45px;
-      margin: 20px 10px 40px;
+      // margin: 20px 10px 40px;
       border: none;
       color: #ffffff;
     }
