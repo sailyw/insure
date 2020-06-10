@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <!-- 头部 -->
-    <header class="header">
+    <header>
       <i class="el-icon-arrow-left"></i>
       <p>VIP客户理赔平台</p>
     </header>
@@ -29,18 +29,17 @@
               ></el-input>
               <el-dialog
                 :visible.sync="dialogVisible"
-                width="100%"
+                width="92%"
                 :before-close="handleClose"
               >
                 <slide-verify
+                  ref="slideblock"
                   :l="42"
                   :r="10"
                   :w="310"
                   :h="155"
                   slider-text="向右滑动"
                   @success="onSuccess"
-                  @fail="onFail"
-                  @refresh="onRefresh"
                 ></slide-verify>
               </el-dialog>
             </el-form-item>
@@ -92,19 +91,15 @@ export default {
       if (value === "") {
         callback(new Error("验证码不能为空"));
       } else {
-        const reg = "123456";
-        if (value === reg) {
-          callback();
-        } else {
-          return callback(new Error("请输入正确的验证码"));
-        }
+        callback();
       }
     };
     return {
+      errors: {},
       //这是登录表单的数据绑定对象
       loginForm: {
-        phoneNum: "",
-        phoneCode: "",
+        phoneNum: "", //手机号
+        phoneCode: "", //验证码
       },
       rules: {
         phoneNum: [
@@ -116,8 +111,6 @@ export default {
           // { min: 6, max: 6, trigger: "blur" }
         ],
       },
-      show: true,
-      count: 0,
       buttonText: "发送验证码",
       isDisabled: false, //是否可点击
       dialogVisible: false,
@@ -138,11 +131,19 @@ export default {
   methods: {
     //发送验证码
     sendCode() {
-      let tel = this.loginForm.phoneNum;
-      if (this.checkMobile(tel)) {
-        console.log(tel);
+      if(this.checkMobile()){
+        this.$axios.post("/api/posts/sms_send",{
+          phone:this.loginForm.phoneNum
+        })
+        .then(res=>{
+          console.log(res);
         this.dialogVisible = true;
+        })
       }
+      // let tel = this.loginForm.phoneNum;
+      // if (this.checkMobile(tel)) {
+      //   console.log(tel);
+        //  this.$refs.slideblock.reset();
     },
     //弹出框确认关闭
     handleClose(done) {
@@ -172,13 +173,6 @@ export default {
         }, 1000);
       }
     },
-    onFail() {
-      // this.msg = ''
-    },
-    onRefresh() {
-      // this.msg = ''
-    },
-    smsCode() {},
     //提交登录
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -188,11 +182,29 @@ export default {
           //   method:"post",
           //   url:''
           // })
-          this.$message({
-            message: "登录成功",
-            type: "success",
-          });
-          this.$router.push("/home");
+          // this.$message({
+          //   message: "登录成功",
+          //   type: "success",
+          // });
+          // this.$router.push("/home");
+          // session保存手机号
+          this.$axios
+            .post("/api/posts/sms_back", {
+              phone: this.loginForm.phoneNum,
+              code: this.loginForm.phoneCode,
+            })
+            .then((res) => {
+              console.log(res);
+              // 检验成功,设置登录状态并且跳转到/
+              localStorage.setItem("picc_login", true);
+              this.$router.push("/home");
+            })
+            .catch((err) => {
+              this.$message({
+                message: err.response.data.msg,
+                type: "warning",
+              });
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -200,14 +212,30 @@ export default {
       });
     },
     // 验证手机号
-    checkMobile(str) {
-      let re = /^1[3|4|5|7|8][0-9]\d{8}$/;
-      if (re.test(str)) {
-        return true;
-      } else {
+    // checkMobile(str) {
+    //   let re = /^1[3|4|5|7|8][0-9]\d{8}$/;
+    //   if (re.test(str)) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // },
+    checkMobile(){
+       if (!this.loginForm.phoneNum) {
+        this.errors = {
+          phoneNum: "手机号码不能为空",
+        };
         return false;
+      } else if (!/^1[345678]\d{9}$/.test(this.loginForm.phoneNum)) {
+        this.errors = {
+          phoneNum: "请填写正确的手机号码",
+        };
+        return false;
+      } else {
+        this.errors = {};
+        return true;
       }
-    },
+    }
   },
 };
 </script>
@@ -216,11 +244,10 @@ export default {
 #login {
   background: url("../assets/bg@3x.png");
   min-height: 100vh;
-  .header {
+  header {
     width: 100%;
     height: 50px;
     margin-bottom: 20px;
-    // border-bottom: 1px solid #e6e6e6;
     .el-icon-arrow-left {
       color: #ffffff;
       position: absolute;
@@ -240,7 +267,7 @@ export default {
   }
   main {
     .wrapper {
-      width: 340px;
+      width: 94%;
       margin: 0 auto;
       .picclogo {
         margin: 40px auto 60px;
@@ -293,7 +320,7 @@ export default {
           width: 100%;
           height: 45px;
           border: none;
-          margin-top: 16px;
+          margin-top: 10px;
         }
       }
     }

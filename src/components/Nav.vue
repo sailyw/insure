@@ -49,7 +49,7 @@ export default {
   left: 0;
   right: 0;
   .el-menu {
-    background-color: rgb(227, 69, 80);
+    background-color: #e34550;
     display: flex;
     justify-content: center;
   }

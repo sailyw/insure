@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// import { session } from '@/libs/location';
 
 Vue.use(VueRouter)
 
@@ -37,12 +38,32 @@ VueRouter.prototype.push = function push(location) {
 }
 //路由守卫
 // router.beforeEach((to,from,next)=>{
-//   const isLogin = localStorage.picc_login?true:false;
-//   if(to.path=='/login'){
+//   // let token = session.parseJSON();
+//   let token = true
+//   if (token) {
 //     next();
-//   }else{
-//     //是否在登录状态下
-//     isLogin ? next() :next("/login");
+//   } else {
+//     next({
+//       name: 'Login'
+//     });
 //   }
+
+  // if(to.path=='/login'){
+  //   next();
+  // }else{
+  //   //是否在登录状态下
+  //   isLogin ? next() :next("/login");
+  // }
 // })
+
+//路由守卫
+router.beforeEach((to,from,next)=>{
+  const isLogin = localStorage.picc_login?true:false;
+  if(to.path=='/login'){
+    next();
+  }else{
+    //是否在登录状态下
+    isLogin ? next() :next("/login");
+  }
+})
 export default router

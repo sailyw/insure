@@ -21,20 +21,38 @@
             <p>保单信息</p>
           </div>
           <el-form-item prop="tel" label="联系人电话">
-            <el-input v-model="ruleForm.tel" placeholder="请输入联系人电话"></el-input>
+            <el-input
+              v-model="ruleForm.tel"
+              placeholder="请输入联系人电话"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="policyno" label="保单号">
-            <el-input v-model="ruleForm.policyno" placeholder="请输入保单号"></el-input>
+            <el-input
+              v-model="ruleForm.policyno"
+              placeholder="请输入保单号"
+            ></el-input>
           </el-form-item>
-          <el-form-item prop="origin" label="保险购买平台/来源" style="border-bottom:none;padding-bottom:20px;">
-            <el-select v-model="ruleForm.origin" placeholder="请点击选择" style="width:100%">
-              <el-option label="中小学生平安保险" value="student"></el-option>
+          <el-form-item
+            prop="origin"
+            label="保险购买平台/来源"
+            style="border-bottom:none;padding-bottom:20px;"
+          >
+            <el-select
+              v-model="ruleForm.origin"
+              placeholder="请点击选择"
+              style="width:100%"
+            >
+            <el-option v-for="item in originList" :label="item.label" :value="item.value" :key="item.id"></el-option>
+              <!-- <el-option label="中小学生平安保险" value="student"></el-option>
               <el-option label="南钢集团补充医疗" value="nangang"></el-option>
               <el-option label="保险E家雇主险" value="Ejia"></el-option>
               <el-option label="途牛旅游网" value="tuniu"></el-option>
               <el-option label="开心保平台" value="happyplat"></el-option>
-              <el-option label="新一站（含天猫旗舰店）" value="newone"></el-option>
-              <el-option label="其他" value="others"></el-option>
+              <el-option
+                label="新一站（含天猫旗舰店）"
+                value="newone"
+              ></el-option>
+              <el-option label="其他" value="others"></el-option> -->
             </el-select>
           </el-form-item>
         </div>
@@ -45,11 +63,24 @@
             <p>报案人信息</p>
           </div>
           <el-form-item label="报案人姓名" prop="name">
-            <el-input v-model="ruleForm.name" placeholder="请输入您的姓名"></el-input>
+            <el-input
+              v-model="ruleForm.name"
+              placeholder="请输入您的姓名"
+            ></el-input>
           </el-form-item>
           <el-form-item label="您与保险人关系" prop="relation">
-            <el-select v-model="ruleForm.relation" placeholder="请点击选择" style="width:100%">
-              <el-option label="本人" value="oneself"></el-option>
+            <el-select
+              v-model="ruleForm.relation"
+              placeholder="请点击选择"
+              style="width:100%"
+            >
+              <el-option
+                v-for="item in relationList"
+                :label="item.label"
+                :value="item.value"
+                :key="item.id"
+              ></el-option>
+              <!-- <el-option label="本人" value="oneself"></el-option>
               <el-option label="家属" value="familymembers"></el-option>
               <el-option label="朋友" value="friend"></el-option>
               <el-option label="同事" value="colleague"></el-option>
@@ -58,10 +89,14 @@
               <el-option label="PICC员工" value="PICC"></el-option>
               <el-option label="被保险人单位员工" value="Employees"></el-option>
               <el-option label="线上平台" value="onlineplatform"></el-option>
-              <el-option label="其他" value="others"></el-option>
+              <el-option label="其他" value="others"></el-option> -->
             </el-select>
           </el-form-item>
-          <el-form-item label="报案人电话" prop="phone" style="border-bottom:none">
+          <el-form-item
+            label="报案人电话"
+            prop="phone"
+            style="border-bottom:none"
+          >
             <el-input v-model="ruleForm.phone"></el-input>
           </el-form-item>
         </div>
@@ -89,7 +124,11 @@
             <el-col class="line" :span="2"></el-col>
             <el-col :span="11">
               <el-form-item prop="date2" style="border:none;margin-bottom: 0;">
-                <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 210%;"></el-time-picker>
+                <el-time-picker
+                  placeholder="选择时间"
+                  v-model="ruleForm.date2"
+                  style="width: 210%;"
+                ></el-time-picker>
               </el-form-item>
             </el-col>
           </el-form-item>
@@ -120,13 +159,24 @@
             ></el-input>
           </el-form-item>
           <!-- 索赔总金额 -->
-          <el-form-item label="索赔总金额" prop="totalmoney" style="border:none">
-            <el-input v-model="ruleForm.totalmoney" placeholder="点击录入">元</el-input>
+          <el-form-item
+            label="索赔总金额"
+            prop="totalmoney"
+            style="border:none"
+          >
+            <el-input v-model="ruleForm.totalmoney" placeholder="点击录入"
+              ></el-input
+            >
           </el-form-item>
         </div>
-          <div class="btns">
-            <el-button :plain="true" type="primary" @click="submitForm('ruleForm')">提交</el-button>
-          </div>
+        <div class="btns">
+          <el-button
+            :plain="true"
+            type="primary"
+            @click="submitForm('ruleForm')"
+            >提交</el-button
+          >
+        </div>
       </el-form>
     </div>
     <!-- 提交按钮 -->
@@ -157,6 +207,27 @@ export default {
     return {
       options: regionData,
       selectedOptions: [],
+      originList:[
+        { id: 0, label: "中小学生平安保险" ,value:"student"},
+        { id: 1, label: "南钢集团补充医疗",value:"nangang" },
+        { id: 2, label: "保险E家雇主险",value:"Ejia" },
+        { id: 3, label: "途牛旅游网" ,value:"tuniu"},
+        { id: 4, label: "开心保平台" ,value:"happyplat"},
+        { id: 5, label: "新一站（含天猫旗舰店）" ,value:"newone"},
+        { id: 6, label: "其他" ,value:"others"},
+      ],
+      relationList: [
+        { id: 0, label: "本人" ,value:"oneself"},
+        { id: 1, label: "家属",value:"familymembers" },
+        { id: 2, label: "朋友",value:"friend" },
+        { id: 3, label: "同事" ,value:"colleague"},
+        { id: 4, label: "修理厂" ,value:"repairdepot"},
+        { id: 5, label: "代理人" ,value:"agent"},
+        { id: 6, label: "PICC员工" ,value:"PICC"},
+        { id: 7, label: "被保险人单位员工" ,value:"Employees"},
+        { id: 8, label: "线上平台" ,value:"onlineplatform"},
+        { id: 9, label: "其他" ,value:"others"},
+      ],
       ruleForm: {
         tel: "", //联系人电话
         policyno: "", //保单号
@@ -166,39 +237,45 @@ export default {
         date1: "", //出险日期
         date2: "", //出险时间
         address: "", //出险地点
-        desc: "" //出现经过
+        desc: "", //出现经过
       },
       rules: {
         tel: [{ required: true, validator: validPhone, trigger: "blur" }],
-        policyno: [{ required: true, message: "请输入保单号", trigger: "blur" }],
+        policyno: [
+          { required: true, message: "请输入保单号", trigger: "blur" },
+        ],
         origin: [
-          { required: true, message: "请选择购买平台/来源", trigger: "change" }
+          { required: true, message: "请选择购买平台/来源", trigger: "change" },
         ],
         name: [{ required: true, message: "请输入您的姓名", trigger: "blur" }],
         relation: [
-          { required: true, message: "请选择您与保险人关系", trigger: "change" }
+          {
+            required: true,
+            message: "请选择您与保险人关系",
+            trigger: "change",
+          },
         ],
         address: [
-          { required: true, message: "请补充完整出险地点", trigger: "change" }
+          { required: true, message: "请补充完整出险地点", trigger: "change" },
         ],
         date1: [
           {
             type: "date",
             required: true,
             message: "请选择日期",
-            trigger: "change"
-          }
+            trigger: "change",
+          },
         ],
         date2: [
           {
             type: "date",
             required: true,
             message: "请选择时间",
-            trigger: "change"
-          }
+            trigger: "change",
+          },
         ],
-        desc: [{ required: true, message: "请填写出现经过", trigger: "blur" }]
-      }
+        desc: [{ required: true, message: "请填写出现经过", trigger: "blur" }],
+      },
     };
   },
   created() {
@@ -207,7 +284,7 @@ export default {
       "预报案信息提交后请不要退出，稍后需要您上传影像资料（文件格式为图片或者pdf），若您不小心退出，请在信息查询进行补传，否则案件预报案可能会被驳回！",
       "信息",
       {
-        confirmButtonText: "确定"
+        confirmButtonText: "确定",
         // callback: action => {
         //   this.$message({
         //     type: "info",
@@ -217,18 +294,36 @@ export default {
       }
     );
   },
+  mounted() {
+    // 拿手机号
+    this.ruleForm.phone = sessionStorage;
+  },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$message({
-            message: "提交成功",
-            type: "success"
+          console.log(this.ruleForm);
+          this.$request.post("url", this.ruleForm).then((res) => {
+            console.log(res);
+            if (res.code === 200) {
+              this.$message({
+                message: "提交成功",
+                type: "success",
+              });
+              // 清空表单
+              this.$refs[formName].resetFields();
+            } else {
+              this.$message({
+                message: "提交失败",
+                type: "warning",
+              });
+            }
           });
-        } else {
-          console.log("error submit!!");
-          return false;
         }
+        // else {
+        //   console.log("error submit!!");
+        //   return false;
+        // }
       });
     },
     handleChange() {
@@ -247,9 +342,9 @@ export default {
     //   this.$router.push("/home");
     // },
     // 提交
-    registsubmit() {}
+    registsubmit() {},
     //打开提示
-  }
+  },
 };
 </script>
 <style lang="less">
@@ -300,8 +395,8 @@ export default {
       }
     }
   }
-  .el-form{
-    background-color: rgb(249,249,249);
+  .el-form {
+    background-color: rgb(249, 249, 249);
   }
   .el-form-item {
     border-bottom: 1px solid #e5e5e5;
@@ -348,9 +443,9 @@ export default {
     outline: none;
   }
   .btns {
-    margin:50px 10px 0;
+    margin: 50px 10px 0;
     .el-button {
-      background-color: rgb(247, 105, 104);
+      background-color: #fe5958;
       width: 100%;
       height: 45px;
       // margin: 20px 10px 40px;

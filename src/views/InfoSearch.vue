@@ -9,29 +9,34 @@
             <span></span>
             <p>信息查询</p>
           </div>
-          <!-- <el-form
+          <!-- <search-form :formConfig="formConfig" :value="form"></search-form> -->
+          <el-form
             :model="ruleForm"
             ref="ruleForm"
-            label-width="100px"
+            label-width="141px"
             class="demo-ruleForm"
           >
-            <el-form-item prop="policyno" label="保单号：">
+            <el-form-item prop="tel" label="联系人电话">
+              <el-input
+                v-model="ruleForm.tel"
+                placeholder="请输入联系人电话"
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="policyno" label="保单号">
               <el-input
                 v-model="ruleForm.policyno"
                 placeholder="请输入保单号"
               ></el-input>
             </el-form-item>
-            <el-form-item prop="temporaryno" label="临时报案号：">
-              <el-input
-                v-model="ruleForm.temporaryno"
-                placeholder="请输入临时报案号"
-              ></el-input>
-            </el-form-item>
-            <el-form-item class="pr" style="border:none">
-              <el-button plain @click="onSubmit">搜索</el-button>
-            </el-form-item>
-          </el-form> -->
-          <search-form :formConfig="formConfig" :value="form"></search-form>
+            <div class="btns">
+              <el-button
+                :plain="true"
+                type="primary"
+                @click="submitForm('ruleForm')"
+                >提交</el-button
+              >
+            </div>
+          </el-form>
         </div>
         <div class="tablecase">
           <el-table
@@ -49,9 +54,6 @@
               :prop="item.prop"
             >
             </el-table-column>
-            <!-- <el-table-column prop="caseState" label="按键状态" ></el-table-column>
-            <el-table-column prop="temporaryno" label="临时报案号"></el-table-column>
-            <el-table-column prop="policyno" label="保单号"></el-table-column> -->
           </el-table>
         </div>
       </div>
@@ -61,41 +63,45 @@
 
 <script>
 import Nav from "@/components/Nav.vue";
-import SearchForm from "@/components/SearchForm.vue";
+// import SearchForm from "@/components/SearchForm.vue";
 
 export default {
   name: "InfoSearch",
-  components: { Nav, SearchForm },
+  components: { Nav },
   data() {
     return {
       // ruleForm: {
       //   policyno: "",
       //   temporaryno: "",
       // },
-      formConfig: {
-        formItemList: [
-          {
-            type: "input",
-            prop: "policyno",
-            label: "保单号:",
-            placeholder: "请输入保单号",
-          },
-          {
-            type: "input",
-            prop: "temporaryno",
-            label: "临时报案号:",
-            placeholder: "请输入临时报案号",
-          }
-        ],
-        operate: [
-          {
-            icon: "el-icon-search",
-            type: "plain",
-            name: "搜索",
-            handleClick: this.search,
-          },
-        ],
+      ruleForm: {
+        tel: "", //联系人电话
+        policyno: "", //保单号
       },
+      // formConfig: {
+      //   formItemList: [
+      //     {
+      //       type: "input",
+      //       prop: "policyno",
+      //       label: "保单号:",
+      //       placeholder: "请输入保单号",
+      //     },
+      //     {
+      //       type: "input",
+      //       prop: "temporaryno",
+      //       label: "临时报案号:",
+      //       placeholder: "请输入临时报案号",
+      //     },
+      //   ],
+      //   operate: [
+      //     {
+      //       icon: "el-icon-search",
+      //       type: "plain",
+      //       name: "搜索",
+      //       handleClick: this.search,
+      //     },
+      //   ],
+      // },
       form: {},
       tableData: [
         {
@@ -136,11 +142,28 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      console.log("submit!");
-    },
-    search() {
-      console.log(this.form);
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          console.log(this.ruleForm);
+          // this.$request.post("url", this.ruleForm).then((res) => {
+          //   console.log(res);
+          //   if (res.code === 200) {
+          //     this.$message({
+          //       message: "提交成功",
+          //       type: "success",
+          //     });
+          //     // 清空表单
+          //     this.$refs[formName].resetFields();
+          //   } else {
+          //     this.$message({
+          //       message: "提交失败",
+          //       type: "warning",
+          //     });
+          //   }
+          // });
+        }
+      });
     },
   },
 };
@@ -192,14 +215,19 @@ export default {
             text-align: left;
             width: 110px;
           }
-          
         }
         // .pr > .el-form-item__content {
         //   margin-left: 0 !important;
         //   margin-bottom: 20px;
         // }
       }
-
+.el-button--primary.is-plain {
+    color: #409EFF;
+    background: #ecf5ff;
+    border-color: #b3d8ff;
+    width: 100%;
+    margin: 10px auto;
+}
       .tablecase {
         margin: 0 10px;
       }

@@ -6,8 +6,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios';
+// import { request } from './api';
 
+// Vue.prototype.$axios = axios;
+/**
+ * @description 全局注册请求变量
+ */
+// Vue.prototype.$request = request;
 Vue.prototype.$axios = axios;
+
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 Vue.use(SlideVerify);
