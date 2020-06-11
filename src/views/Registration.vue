@@ -1,11 +1,6 @@
 <template>
   <div id="registration">
-    <!-- <header class="header">
-      <i class="el-icon-arrow-left" @click="comeBack"></i>
-      <p>预报案登记</p>
-    </header>-->
     <Nav />
-
     <div class="forminfo">
       <el-form
         :model="ruleForm"
@@ -42,17 +37,12 @@
               placeholder="请点击选择"
               style="width:100%"
             >
-            <el-option v-for="item in originList" :label="item.label" :value="item.value" :key="item.id"></el-option>
-              <!-- <el-option label="中小学生平安保险" value="student"></el-option>
-              <el-option label="南钢集团补充医疗" value="nangang"></el-option>
-              <el-option label="保险E家雇主险" value="Ejia"></el-option>
-              <el-option label="途牛旅游网" value="tuniu"></el-option>
-              <el-option label="开心保平台" value="happyplat"></el-option>
               <el-option
-                label="新一站（含天猫旗舰店）"
-                value="newone"
+                v-for="item in originList"
+                :label="item.label"
+                :value="item.value"
+                :key="item.id"
               ></el-option>
-              <el-option label="其他" value="others"></el-option> -->
             </el-select>
           </el-form-item>
         </div>
@@ -80,16 +70,6 @@
                 :value="item.value"
                 :key="item.id"
               ></el-option>
-              <!-- <el-option label="本人" value="oneself"></el-option>
-              <el-option label="家属" value="familymembers"></el-option>
-              <el-option label="朋友" value="friend"></el-option>
-              <el-option label="同事" value="colleague"></el-option>
-              <el-option label="修理厂" value="repairdepot"></el-option>
-              <el-option label="代理人" value="agent"></el-option>
-              <el-option label="PICC员工" value="PICC"></el-option>
-              <el-option label="被保险人单位员工" value="Employees"></el-option>
-              <el-option label="线上平台" value="onlineplatform"></el-option>
-              <el-option label="其他" value="others"></el-option> -->
             </el-select>
           </el-form-item>
           <el-form-item
@@ -164,9 +144,10 @@
             prop="totalmoney"
             style="border:none"
           >
-            <el-input v-model="ruleForm.totalmoney" placeholder="点击录入"
-              ></el-input
-            >
+            <el-input
+              v-model="ruleForm.totalmoney"
+              placeholder="点击录入"
+            ></el-input>
           </el-form-item>
         </div>
         <div class="btns">
@@ -204,40 +185,55 @@ export default {
         }
       }
     };
+    let validMoney = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("总金额不能为空"));
+      } else  {
+        const reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;   
+        console.log(reg.test(value));
+        if(reg.test(value)){
+          callback()
+        }else{
+          return callback(new Error("请输入正确格式的金额"));
+        }   
+      }
+    };
     return {
       options: regionData,
       selectedOptions: [],
-      originList:[
-        { id: 0, label: "中小学生平安保险" ,value:"student"},
-        { id: 1, label: "南钢集团补充医疗",value:"nangang" },
-        { id: 2, label: "保险E家雇主险",value:"Ejia" },
-        { id: 3, label: "途牛旅游网" ,value:"tuniu"},
-        { id: 4, label: "开心保平台" ,value:"happyplat"},
-        { id: 5, label: "新一站（含天猫旗舰店）" ,value:"newone"},
-        { id: 6, label: "其他" ,value:"others"},
+      originList: [
+        { id: 0, label: "中小学生平安保险", value: "student" },
+        { id: 1, label: "南钢集团补充医疗", value: "nangang" },
+        { id: 2, label: "保险E家雇主险", value: "Ejia" },
+        { id: 3, label: "途牛旅游网", value: "tuniu" },
+        { id: 4, label: "开心保平台", value: "happyplat" },
+        { id: 5, label: "新一站（含天猫旗舰店）", value: "newone" },
+        { id: 6, label: "其他", value: "others" },
       ],
       relationList: [
-        { id: 0, label: "本人" ,value:"oneself"},
-        { id: 1, label: "家属",value:"familymembers" },
-        { id: 2, label: "朋友",value:"friend" },
-        { id: 3, label: "同事" ,value:"colleague"},
-        { id: 4, label: "修理厂" ,value:"repairdepot"},
-        { id: 5, label: "代理人" ,value:"agent"},
-        { id: 6, label: "PICC员工" ,value:"PICC"},
-        { id: 7, label: "被保险人单位员工" ,value:"Employees"},
-        { id: 8, label: "线上平台" ,value:"onlineplatform"},
-        { id: 9, label: "其他" ,value:"others"},
+        { id: 0, label: "本人", value: "oneself" },
+        { id: 1, label: "家属", value: "familymembers" },
+        { id: 2, label: "朋友", value: "friend" },
+        { id: 3, label: "同事", value: "colleague" },
+        { id: 4, label: "修理厂", value: "repairdepot" },
+        { id: 5, label: "代理人", value: "agent" },
+        { id: 6, label: "PICC员工", value: "PICC" },
+        { id: 7, label: "被保险人单位员工", value: "Employees" },
+        { id: 8, label: "线上平台", value: "onlineplatform" },
+        { id: 9, label: "其他", value: "others" },
       ],
       ruleForm: {
         tel: "", //联系人电话
         policyno: "", //保单号
+        phone:"",
         origin: "", //保险购买平台/来源
         name: "", //报案人姓名
         relation: "", //与保险人关系
         date1: "", //出险日期
         date2: "", //出险时间
         address: "", //出险地点
-        desc: "", //出现经过
+        desc: "", //出险经过
+        totalmoney:"",//索赔总金额
       },
       rules: {
         tel: [{ required: true, validator: validPhone, trigger: "blur" }],
@@ -275,28 +271,20 @@ export default {
           },
         ],
         desc: [{ required: true, message: "请填写出现经过", trigger: "blur" }],
+        totalmoney:[
+          { validator: validMoney, trigger: "change" },
+        ]
       },
     };
   },
   created() {
-    console.log("create------------------");
     this.$alert(
       "预报案信息提交后请不要退出，稍后需要您上传影像资料（文件格式为图片或者pdf），若您不小心退出，请在信息查询进行补传，否则案件预报案可能会被驳回！",
       "信息",
       {
         confirmButtonText: "确定",
-        // callback: action => {
-        //   this.$message({
-        //     type: "info",
-        //     // message: `action: ${action}`
-        //   });
-        // }
       }
     );
-  },
-  mounted() {
-    // 拿手机号
-    this.ruleForm.phone = sessionStorage;
   },
   methods: {
     submitForm(formName) {
@@ -327,23 +315,12 @@ export default {
       });
     },
     handleChange() {
-      // console.log(value); // value值为区域码
-      // // 用CodeToText转换成中文
-      // console.log(CodeToText[value[0]]);
-      // console.log(CodeToText[value[1]]);
       var loc = "";
       for (let i = 0; i < this.selectedOptions.length; i++) {
         loc += CodeToText[this.selectedOptions[i]];
       }
       console.log(loc);
     },
-    // // 返回
-    // comeBack() {
-    //   this.$router.push("/home");
-    // },
-    // 提交
-    registsubmit() {},
-    //打开提示
   },
 };
 </script>

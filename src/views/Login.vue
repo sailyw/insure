@@ -131,19 +131,20 @@ export default {
   methods: {
     //发送验证码
     sendCode() {
-      if(this.checkMobile()){
-        this.$axios.post("/api/posts/sms_send",{
-          phone:this.loginForm.phoneNum
-        })
-        .then(res=>{
-          console.log(res);
-        this.dialogVisible = true;
-        })
+      if (this.checkMobile()) {
+        this.$axios
+          .post("/api/posts/sms_send", {
+            phone: this.loginForm.phoneNum,
+          })
+          .then((res) => {
+            console.log(res);
+            this.dialogVisible = true;
+          });
       }
       // let tel = this.loginForm.phoneNum;
       // if (this.checkMobile(tel)) {
       //   console.log(tel);
-        //  this.$refs.slideblock.reset();
+      //  this.$refs.slideblock.reset();
     },
     //弹出框确认关闭
     handleClose(done) {
@@ -174,6 +175,7 @@ export default {
       }
     },
     //提交登录
+    // 17610351502   552367
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -220,8 +222,8 @@ export default {
     //     return false;
     //   }
     // },
-    checkMobile(){
-       if (!this.loginForm.phoneNum) {
+    checkMobile() {
+      if (!this.loginForm.phoneNum) {
         this.errors = {
           phoneNum: "手机号码不能为空",
         };
@@ -235,7 +237,7 @@ export default {
         this.errors = {};
         return true;
       }
-    }
+    },
   },
 };
 </script>
@@ -293,6 +295,9 @@ export default {
         padding: 40px 10px;
         background-color: #fff;
         border-radius: 20px;
+        .el-message-box {
+          width: 94%;
+        }
       }
       .code {
         position: relative;

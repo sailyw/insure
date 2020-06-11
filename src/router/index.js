@@ -7,10 +7,11 @@ Vue.use(VueRouter)
   const routes = [
   {
     path: '/',
-    component: ()=>import("@/views/Login.vue")
+    component: ()=>import("@/views/Home.vue")
   },
   {
     path: '/login',
+    name:"login",
     component: ()=>import("@/views/Login.vue")
   },
   {
@@ -20,10 +21,12 @@ Vue.use(VueRouter)
   },
   {
     path: '/infoSearch',
+    name:'infoSearch',
     component: ()=>import("@/views/InfoSearch.vue")
   },
   {
     path:'/home',
+    name:'home',
     component: ()=>import("@/views/Home.vue")
   }
 ]
